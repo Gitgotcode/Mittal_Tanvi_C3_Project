@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
     Restaurant restaurant;
+    
+    //spoof variable acts as the menu selected by the user
+     List<Item> spoof = new ArrayList<Item>();
 
     @BeforeEach
     public void restaurant_adding_for_testing(){
@@ -35,6 +38,26 @@ class RestaurantTest {
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>ORDER VALUE<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void order_value_should_get_cumulative_total_when_collection_of_items_selected(){
+        
+        spoof = restaurant.getMenu();
+        assertEquals(506,restaurant.getOrderValue(spoof));
+    }
+
+    @Test
+    public void order_value_should_reduce_cumulative_total_when_an_item_removed(){
+       
+        spoof = restaurant.getMenu();
+        int total = restaurant.getOrderValue(spoof);
+        int afterTotal = spoof.get(1).getPrice();
+        spoof.remove(1);
+        assertEquals(total-afterTotal,restaurant.getOrderValue(spoof));
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<ORDER VALUE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -59,4 +82,5 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
 }
